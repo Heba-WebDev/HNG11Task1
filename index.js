@@ -15,12 +15,16 @@ app.get(
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${loc.lat}&lon=${loc.lon}&units=metric&appid=${process.env.KEY}`
     );
+    console.log("Weather res:", weatherResponse);
+
     const weatherData = await weatherResponse.json();
+    console.log("Weather data:", weatherData);
+    console.log(weatherData?.main?.temp)
     res.setHeader("Content-Type", "application/json");
     res.status(200).json({
       client_ip: ip,
-      location: loc.city,
-      greeting: `Hello, ${name}, the temperature is ${weatherData.main.temp} degrees Celcius in ${loc.city}`,
+      location: loc?.city,
+      greeting: `Hello, ${name}, the temperature is ${weatherData?.main?.temp} degrees Celcius in ${loc?.city}`,
     });
   }
 );
