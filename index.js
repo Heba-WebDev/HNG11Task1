@@ -16,7 +16,7 @@ app.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${loc.lat}&lon=${loc.lon}&units=metric&appid=${process.env.KEY}`
     );
     const weatherData = await weatherResponse.json();
-
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json({
       client_ip: ip,
       location: loc.city,
