@@ -12,12 +12,13 @@ app.get(
   async (req, res ) => {
    const visitorName = req.query.visitor_name || "Visitor";
     const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    var geo = geoip.lookup(clientIp);
-    console.log(geo)
+    var geo = await geoip.lookup(clientIp);
+
     const weather = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${geo.ll[0]}&lon=${geo.ll[1]}&units=metric&appid=${process.env.KEY}`
     ).then((data) => data.json());
-    console.log(weather)
+    console.log(weather);
+  
     res.setHeader("Content-Type", "application/json");
     res.status(200).json({
       client_ip: clientIp,
