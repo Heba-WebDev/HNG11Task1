@@ -13,7 +13,7 @@ app.get(
    const visitorName = req.query.visitor_name || "Visitor";
     const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
     var geo = geoip.lookup(clientIp);
-
+    console.log(geo)
     const weather = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${geo.ll[0]}&lon=${geo.ll[1]}&units=metric&appid=${process.env.KEY}`
     ).then((data) => data.json());
@@ -21,8 +21,8 @@ app.get(
     res.setHeader("Content-Type", "application/json");
     res.status(200).json({
       client_ip: clientIp,
-      location: geo.city,
-      greeting: `Hello, ${visitorName}!, the temperature is ${weather.main.temp} degrees Celcius in ${geo.city}`,
+      location: geo?.city,
+      greeting: `Hello, ${visitorName}!, the temperature is ${weather?.main?.temp} degrees Celcius in ${geo.city}`,
     });
   }
 );
