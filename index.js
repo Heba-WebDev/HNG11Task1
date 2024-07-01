@@ -12,10 +12,10 @@ app.get(
   async (req, res ) => {
    const visitorName = req.query.visitor_name || "Visitor";
     const clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    var geo = await geoip.lookup(clientIp);
-
+    var geo = geoip.lookup(clientIp);
+    console.log(geo)
     const weather = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${geo.ll[0]}&lon=${geo.ll[1]}&units=metric&appid=${process.env.KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${geo?.ll[0]}&lon=${geo?.ll[1]}&units=metric&appid=97aa6b6fbf3e3eaea13358eddf2f40fa`
     ).then((data) => data.json());
     console.log(weather);
   
@@ -23,7 +23,7 @@ app.get(
     res.status(200).json({
       client_ip: clientIp,
       location: geo?.city,
-      greeting: `Hello, ${visitorName}!, the temperature is ${weather?.main?.temp} degrees Celcius in ${geo.city}`,
+      greeting: `Hello, ${visitorName}!, the temperature is ${weather?.main?.temp} degrees Celcius in ${geo?.city}`,
     });
   }
 );
