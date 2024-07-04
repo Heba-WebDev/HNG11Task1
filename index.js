@@ -15,7 +15,7 @@ app.get(
     var geo = geoip.lookup(clientIp);
     console.log(geo.ll)
     const weather = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${geo?.ll[0]}&lon=${geo?.ll[1]}&units=metric&appid=97aa6b6fbf3e3eaea13358eddf2f40fa`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${geo?.ll[0]}&lon=${geo?.ll[1]}&units=metric&appid=${process.env.KEY}`
     ).then((data) => data.json());
     console.log(weather.main.temp_max);
   
